@@ -1,19 +1,23 @@
 server:
-  port: 9000
+  port: 9002
 
 spring:
   application:
     name: testify-service
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
 
   datasource:
     url: jdbc:postgresql://localhost:5432/testify_db
     username: postgres
-    password: password
+    password: 123456
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      '[ddl-auto]': update
     show-sql: true
     properties:
       hibernate:
@@ -26,5 +30,5 @@ spring:
 
 # Tùy chỉnh config riêng của Testify
 testify:
-  log-dir: D:/test_results
+  log-dir: ./logs
   max-concurrent-requests: 100

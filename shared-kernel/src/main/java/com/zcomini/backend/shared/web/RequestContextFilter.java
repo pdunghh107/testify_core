@@ -94,7 +94,7 @@ public class RequestContextFilter extends OncePerRequestFilter {
                     .parseSignedClaims(token)
                     .getPayload();
 
-            String userIdStr = resolveClaim(claims, "sub");
+
 
             populateUuid(resolveTenantId(claims, request), RequestContext::setTenantId);
             populateUuid(resolveClaim(claims, "sub"), RequestContext::setUserId);
@@ -133,6 +133,8 @@ public class RequestContextFilter extends OncePerRequestFilter {
             RequestContext.setUserEmail(resolveClaim(claims, "email"));
             return true;
         } catch (ExpiredJwtException ex) {
+            log.warn("Access token has expired");
+            /* TODO: Bỏ comment đoạn dưới đây khi muốn bật lại Auth
             ApiErrorResponseWriter.write(
                     objectMapper,
                     serviceName,
@@ -143,7 +145,11 @@ public class RequestContextFilter extends OncePerRequestFilter {
                     request.getRequestURI(),
                     List.of());
             return true;
+            */
+            return false; // Tạm thời bypass auth
         } catch (JwtException | IllegalArgumentException ex) {
+            log.warn("Invalid access token");
+            /* TODO: Bỏ comment đoạn dưới đây khi muốn bật lại Auth
             ApiErrorResponseWriter.write(
                     objectMapper,
                     serviceName,
@@ -154,6 +160,8 @@ public class RequestContextFilter extends OncePerRequestFilter {
                     request.getRequestURI(),
                     List.of());
             return true;
+            */
+            return false; // Tạm thời bypass auth
         }
     }
 

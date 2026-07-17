@@ -15,7 +15,10 @@ public class DataGeneratorEngine {
 
     @SuppressWarnings("unchecked")
     public Map<String, Object> applyGenerators(Map<String, Object> basePayload, Map<String, Object> generatorsConfig) {
-        Map<String, Object> dynamicPayload = new HashMap<>(basePayload);
+        Map<String, Object> dynamicPayload = new HashMap<>();
+        if (basePayload != null) {
+            dynamicPayload.putAll(basePayload);
+        }
         if (generatorsConfig == null) return dynamicPayload;
 
         generatorsConfig.forEach((fieldKey, configObj) -> {

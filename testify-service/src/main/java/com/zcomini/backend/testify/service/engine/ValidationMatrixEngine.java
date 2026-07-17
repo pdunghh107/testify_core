@@ -21,8 +21,11 @@ public class ValidationMatrixEngine {
         List<String> reqList = requiredFields != null ? requiredFields : new ArrayList<>();
 
         // Thuật toán Tập Lũy Thừa (Power Set) sinh hoán vị các trường dữ liệu
-        for (int i = 1; i < (1 << n); i++) {
-            Map<String, Object> currentPayload = new HashMap<>();
+        if (n == 0) {
+            suite.add(new TestCaseWrapper("Base Request - Không có payload", new HashMap<>(), 201));
+        } else {
+            for (int i = 1; i < (1 << n); i++) {
+                Map<String, Object> currentPayload = new HashMap<>();
             boolean missingRequired = false;
             List<String> missingFieldsList = new ArrayList<>();
 
@@ -84,6 +87,7 @@ public class ValidationMatrixEngine {
                         }
                     }
                 });
+            }
             }
         }
         return suite;

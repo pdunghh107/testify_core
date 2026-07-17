@@ -14,4 +14,6 @@ public class TestLogDTO {
     private int actualStatus;
     private String fileWriteStatus;
     private String message;
+    private String payload;
+    private String responseBody;
 }
